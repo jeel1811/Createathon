@@ -156,20 +156,12 @@ CORS_ALLOWED_ORIGINS = [
 ]
 if not DEBUG:
     CORS_ALLOWED_ORIGINS += [
-        "https://createathon.netlify.app",  # Add your frontend domain
+        "https://your-frontend-domain.com",  # Add your frontend domain
     ]
 CORS_ALLOW_CREDENTIALS = False
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = ["*"]
-
-CSRF_TRUSTED_ORIGINS = [
-    'https://createathon.netlify.app',
-    'https://createathon-ai15.onrender.com',
-    'http://localhost:5173',
-    'http://localhost:3000',
-]
-
 
 # Channels configuration
 CHANNEL_LAYERS = {
@@ -182,7 +174,6 @@ CHANNEL_LAYERS = {
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SAMESITE = 'Lax'
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
