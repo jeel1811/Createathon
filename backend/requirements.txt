@@ -11,4 +11,3 @@ django-environ==0.11.2
 uvicorn==0.24.0
 requests==2.31.0
 Pillow==10.2.0
-django-cors-headers>=4.3.1
