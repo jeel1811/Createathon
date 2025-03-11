@@ -150,22 +150,18 @@ REFRESH_TOKEN_EXPIRED_AFTER_DAYS = 7
 # CORS settings
 # For the frontend for the secure cookie to be sent, the frontend must be on the same domain as the backend
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # Vite dev server
-    "http://localhost:3000",  # Next.js dev server
+    "http://localhost:3000",
+    "https://createathon.netlify.app",
+    "http://localhost:5173"
 ]
 if not DEBUG:
     CORS_ALLOWED_ORIGINS += [
         "https://your-frontend-domain.com",  # Add your frontend domain
     ]
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_METHODS = [
-    'DELETE',
-    'GET',
-    'OPTIONS',
-    'PATCH',
-    'POST',
-    'PUT',
-]
+CORS_ALLOW_CREDENTIALS = False
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+CORS_ALLOW_HEADERS = ["*"]
 
 # Channels configuration
 CHANNEL_LAYERS = {
