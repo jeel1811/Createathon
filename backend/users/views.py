@@ -164,7 +164,7 @@ class UserViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(progress__completed_at__gte=start_date)
         elif timeframe == 'month':
             start_date = timezone.now() - timezone.timedelta(days=30)
-            queryset = queryset.filter(progress__completed_at__gte(start_date))
+            queryset = queryset.filter(progress__completed_at__gte=start_date)
 
         # Order by points and get top users
         top_users = queryset.order_by('-calculated_points', '-completed_challenges')[:10]
@@ -174,46 +174,34 @@ class UserViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=['post'])
     def login(self, request):
-        try:
-            username = request.data.get('username')
-            password = request.data.get('password')
+        username = request.data.get('username')
+        password = request.data.get('password')
 
-            if not username or not password:
-                return Response(
-                    {'detail': 'Please provide both username and password'},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
-
-            user = authenticate(request, username=username, password=password)
-            
-            if not user:
-                return Response(
-                    {'detail': 'Invalid credentials'},
-                    status=status.HTTP_401_UNAUTHORIZED
-                )
-
-            token, _ = Token.objects.get_or_create(user=user)
-            refresh_token = RefreshToken.objects.create(user=user)
-
-            response = Response({
-                'token': token.key,
-                'refresh_token': str(refresh_token.token),
-                'user': UserSerializer(user).data
-            })
-
-            # Set CORS headers
-            origin = request.headers.get('origin')
-            if origin in settings.CORS_ORIGIN_WHITELIST:
-                response["Access-Control-Allow-Origin"] = origin
-                response["Access-Control-Allow-Credentials"] = "true"
-
-            return response
-
-        except Exception as e:
+        if not username or not password:
             return Response(
-                {'detail': str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                {'error': 'Please provide both username and password'},
+                status=status.HTTP_400_BAD_REQUEST
             )
+
+        user = authenticate(username=username, password=password)
+
+        if not user:
+            return Response(
+                {'error': 'Invalid credentials'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+
+        # Create access token
+        token, _ = Token.objects.get_or_create(user=user)
+        
+        # Create refresh token
+        refresh_token = RefreshToken.objects.create(user=user)
+
+        return Response({
+            'token': token.key,
+            'refresh_token': str(refresh_token.token),
+            'user': UserSerializer(user).data
+        })
 
     @action(detail=False, methods=['post'])
     def refresh(self, request):
