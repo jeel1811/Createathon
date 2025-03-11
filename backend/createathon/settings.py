@@ -170,6 +170,11 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:3000',
 ]
 
+REST_FRAMEWORK_EXEMPT_URLS = [
+    'api/users/login/',
+    'api/users/register/',
+    'api/users/refresh/',
+]
 
 # Channels configuration
 CHANNEL_LAYERS = {
