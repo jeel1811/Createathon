@@ -150,12 +150,13 @@ REFRESH_TOKEN_EXPIRED_AFTER_DAYS = 7
 # CORS settings
 # For the frontend for the secure cookie to be sent, the frontend must be on the same domain as the backend
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
     "https://createathon.netlify.app",
     "http://localhost:5173"
 ]
 if not DEBUG:
     CORS_ALLOWED_ORIGINS += [
-        "https://createathon.netlify.app",  # Add your frontend domain
+        "https://your-frontend-domain.com",  # Add your frontend domain
     ]
 CORS_ALLOW_CREDENTIALS = False
 CORS_ALLOW_ALL_ORIGINS = False
@@ -171,7 +172,7 @@ CHANNEL_LAYERS = {
 
 # Security settings for production
 if not DEBUG:
-    SECURE_SSL_REDIRECT = False
+    SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
