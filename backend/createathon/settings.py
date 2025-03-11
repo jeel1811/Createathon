@@ -12,10 +12,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'Jeel Hirani')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = [
+    'createathon-ai15.onrender.com',
     'localhost',
     '127.0.0.1',
-    '.render.com',
-    'createathon-ai15.onrender.com'
 ]
 
 # Application definition
@@ -150,18 +149,29 @@ REFRESH_TOKEN_EXPIRED_AFTER_DAYS = 7
 # CORS settings
 # For the frontend for the secure cookie to be sent, the frontend must be on the same domain as the backend
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
     "https://createathon.netlify.app",
-    "http://localhost:5173"
+    "http://localhost:5173",
 ]
-if not DEBUG:
-    CORS_ALLOWED_ORIGINS += [
-        "https://your-frontend-domain.com",  # Add your frontend domain
-    ]
-CORS_ALLOW_CREDENTIALS = False
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-CORS_ALLOW_HEADERS = ["*"]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
 
 # Channels configuration
 CHANNEL_LAYERS = {
@@ -177,3 +187,4 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
