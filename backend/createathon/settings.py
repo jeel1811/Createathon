@@ -147,20 +147,13 @@ TOKEN_EXPIRED_AFTER_SECONDS = 3600  # 1 hour
 REFRESH_TOKEN_EXPIRED_AFTER_DAYS = 7
 
 # CORS settings
-# For the frontend for the secure cookie to be sent, the frontend must be on the same domain as the backend
 CORS_ALLOWED_ORIGINS = [
     "https://createathon.netlify.app",
     "http://localhost:5173",
 ]
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_METHODS = [
-    "DELETE",
-    "GET",
-    "OPTIONS",
-    "PATCH",
-    "POST",
-    "PUT",
-]
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = [
     "accept",
     "accept-encoding",
@@ -173,6 +166,12 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
 ]
 
+# Security settings
+CSRF_TRUSTED_ORIGINS = [
+    "https://createathon.netlify.app",
+    "http://localhost:5173",
+]
+
 # Channels configuration
 CHANNEL_LAYERS = {
     'default': {
@@ -182,9 +181,9 @@ CHANNEL_LAYERS = {
 
 # Security settings for production
 if not DEBUG:
-    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = False  # Changed to False since Render handles SSL
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
